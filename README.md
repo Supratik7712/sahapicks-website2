@@ -125,6 +125,7 @@ sahapicks-wesbite/
 ├── vite.config.js
 ├── README.md
 └── .gitignore
+
 ⚙️ Local Development Setup
 
 Follow these steps to run the project locally.
@@ -189,7 +190,6 @@ Site Settings → Domain Management
 Add your purchased domain
 
 Example:
-
 yourdomain.com
 2️⃣ Update DNS Records In Hostinger
 
@@ -224,24 +224,7 @@ Private configuration files
 
 Sensitive information should always be stored using environment variables or secure dashboard settings.
 
-📸 Screenshots
-
-
-🏠 Homepage
-/screenshots/homepage.png
-🛍️ Products Section
-/screenshots/products.png
-📱 Mobile Responsive View
-/screenshots/mobile-view.png
-🔧 Available Scripts
-Run Development Server
-npm run dev
-Create Production Build
-npm run build
-Preview Production Build
-npm run preview
 📈 Future Improvements
-
 Planned updates for future versions:
 
 🔐 Authentication system
@@ -271,11 +254,9 @@ GitHub
 https://github.com/Supratik7712
 
 Website
-
 https://sahapicks.online/
 
 ⭐ Support The Project
-
 If you like this project:
 
 ⭐ Star the repository
@@ -295,7 +276,7 @@ Hostinger domain services.
 
 For collaborations or project-related inquiries:
 
-📧 your-supratiksaha2022s@gmail.com
+📧 supratiksaha2022s@gmail.com
 
 🔗 Repository
 
