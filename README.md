@@ -8,7 +8,7 @@ The project is designed with performance, responsiveness, and simplicity in mind
 
 # 🌐 Live Website
 
-🔗 https://sahapicks,online/
+🔗 https://sahapicks.online/
 
 > Custom domain purchased from Hostinger and deployed using Netlify connected with GitHub.
 
