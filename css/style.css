@@ -2088,6 +2088,28 @@ color:var(--text);
 border-color:var(--border);
 }
 
+.dark-mode .menu-toggle{
+background:#0b1a12;
+border-color:#1f3a2a;
+box-shadow:0 10px 22px rgba(0,0,0,.28);
+}
+
+.dark-mode .menu-toggle span{
+background:#ecfdf5;
+}
+
+.dark-mode .menu-toggle:hover,
+.dark-mode .menu-toggle:focus-visible{
+background:#10251a;
+border-color:#2f6b42;
+box-shadow:0 14px 28px rgba(0,0,0,.34);
+}
+
+.dark-mode .menu-toggle.open{
+background:#10251a;
+border-color:#2f6b42;
+}
+
 .dark-mode .affiliate-ribbon{
 background:rgba(34,197,94,.1);
 border-color:rgba(134,239,172,.18);
