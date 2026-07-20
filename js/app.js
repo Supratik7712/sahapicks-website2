@@ -12,6 +12,9 @@ class SahaPicks {
         this.currentFilter = 'all';
         this.currentSort = 'newest';
         this.currentSearch = '';
+        this.authUser = null;
+        this.authPromptKey = 'sahapicks_auth_prompt_seen';
+        this.authSessionKey = 'sahapicks_auth_session_type';
         this.init();
     }
 
@@ -22,6 +25,7 @@ class SahaPicks {
         this.cacheElements();
         this.attachEventListeners();
         this.setupTheme();
+        this.setupAuth();
         await Storage.init();
         Storage.onChange(() => this.renderProducts());
         this.renderProducts();
@@ -35,6 +39,7 @@ class SahaPicks {
         this.searchInput = document.getElementById('searchInput');
         this.searchBtn = document.querySelector('.search-btn');
         this.searchMessage = document.getElementById('searchMessage');
+        this.authButton = document.getElementById('authButton');
         this.themeToggle = document.getElementById('themeToggle');
         this.menuToggle = document.getElementById('menuToggle');
         this.navLinks = document.querySelector('.nav-links');
@@ -58,6 +63,14 @@ class SahaPicks {
         // Modal
         this.modal = document.getElementById('quickViewModal');
         this.modalClose = document.querySelector('.modal-close');
+
+        // Auth modal
+        this.authModal = document.getElementById('authModal');
+        this.authModalClose = this.authModal?.querySelector('.modal-close');
+        this.googleLoginBtn = document.getElementById('googleLoginBtn');
+        this.guestLoginBtn = document.getElementById('guestLoginBtn');
+        this.signOutBtn = document.getElementById('signOutBtn');
+        this.authStatusText = document.getElementById('authStatusText');
     }
 
     /**
@@ -104,9 +117,22 @@ class SahaPicks {
             if (e.target === this.modal) this.closeModal();
         });
 
+        // Auth modal
+        this.authButton?.addEventListener('click', () => this.openAuthModal(true));
+        this.authModalClose?.addEventListener('click', () => this.dismissAuthModal());
+        this.authModal?.addEventListener('click', (e) => {
+            if (e.target === this.authModal) this.dismissAuthModal();
+        });
+        this.googleLoginBtn?.addEventListener('click', () => this.handleGoogleLogin());
+        this.guestLoginBtn?.addEventListener('click', () => this.handleGuestLogin());
+        this.signOutBtn?.addEventListener('click', () => this.handleSignOut());
+
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') this.closeModal();
+            if (e.key === 'Escape') {
+                this.closeModal();
+                this.closeAuthModal();
+            }
         });
     }
 
@@ -137,6 +163,231 @@ class SahaPicks {
         }
         this.renderProducts();
         this.scrollToProducts();
+    }
+
+    /**
+     * Setup user authentication UI and Firebase hooks.
+     */
+    async setupAuth() {
+        const sessionType = localStorage.getItem(this.authSessionKey);
+        if (sessionType) {
+            this.updateAuthStatusLabel(sessionType === 'guest'
+                ? 'Guest browsing enabled.'
+                : 'Signed in on this device.');
+        }
+
+        if (!window.FirebaseBridge || typeof window.FirebaseBridge.onAuthStateChange !== 'function') {
+            this.updateAuthButton(null);
+            this.maybeShowAuthPrompt();
+            return;
+        }
+
+        try {
+            this.unsubscribeAuth = await window.FirebaseBridge.onAuthStateChange((user) => {
+                this.authUser = user || null;
+                if (user) {
+                    const nextSession = user.isAnonymous ? 'guest' : 'google';
+                    localStorage.setItem(this.authSessionKey, nextSession);
+                    this.markAuthPromptSeen();
+                    this.updateAuthStatusLabel(user.isAnonymous
+                        ? 'Guest browsing enabled.'
+                        : `Signed in as ${user.displayName || user.email || 'Google user'}.`);
+                } else {
+                    this.updateAuthStatusLabel('Choose Google sign-in or guest mode to continue.');
+                }
+                this.updateAuthButton(user);
+                this.updateAuthModalState();
+            });
+        } catch (error) {
+            console.error('Auth initialization failed:', error);
+            this.updateAuthButton(null);
+            this.updateAuthStatusLabel('Authentication is not available yet.');
+        }
+
+        this.maybeShowAuthPrompt();
+    }
+
+    /**
+     * Show the login prompt only once for first-time visitors.
+     */
+    maybeShowAuthPrompt() {
+        const promptSeen = localStorage.getItem(this.authPromptKey) === 'true';
+        if (!promptSeen && !this.authUser) {
+            window.setTimeout(() => this.openAuthModal(), 350);
+        }
+    }
+
+    /**
+     * Open the auth modal.
+     */
+    openAuthModal(force = false) {
+        if (!this.authModal) return;
+        this.authModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        this.updateAuthModalState();
+        if (force) {
+            this.markAuthPromptSeen();
+        }
+    }
+
+    /**
+     * Close the auth modal.
+     */
+    closeAuthModal() {
+        if (!this.authModal) return;
+        this.authModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    /**
+     * Close the auth modal and remember the prompt was seen.
+     */
+    dismissAuthModal() {
+        this.markAuthPromptSeen();
+        this.closeAuthModal();
+    }
+
+    /**
+     * Remember that the auth prompt has been shown.
+     */
+    markAuthPromptSeen() {
+        localStorage.setItem(this.authPromptKey, 'true');
+    }
+
+    /**
+     * Update the header auth button text.
+     */
+    updateAuthButton(user) {
+        if (!this.authButton) return;
+        const labelNode = this.authButton.querySelector('.auth-btn-label') || this.authButton;
+
+        if (!user) {
+            labelNode.textContent = 'Login';
+            this.authButton.title = 'Open sign-in options';
+            return;
+        }
+
+        if (user.isAnonymous) {
+            labelNode.textContent = 'Guest';
+            this.authButton.title = 'Guest browsing active';
+            return;
+        }
+
+        const label = user.displayName || user.email || 'Signed in';
+        labelNode.textContent = label.length > 14 ? `${label.slice(0, 13)}…` : label;
+        this.authButton.title = label;
+    }
+
+    /**
+     * Update helper copy in the auth modal.
+     */
+    updateAuthStatusLabel(message) {
+        if (!this.authStatusText) return;
+        this.authStatusText.textContent = message;
+    }
+
+    /**
+     * Update auth modal controls for the current session state.
+     */
+    updateAuthModalState() {
+        const signedIn = Boolean(this.authUser);
+        const googleLabel = this.googleLoginBtn?.querySelector('.auth-btn-label') || this.googleLoginBtn;
+        const guestLabel = this.guestLoginBtn?.querySelector('.auth-btn-label') || this.guestLoginBtn;
+        if (this.signOutBtn) {
+            this.signOutBtn.style.display = signedIn ? 'inline-flex' : 'none';
+        }
+        if (googleLabel) {
+            googleLabel.textContent = signedIn ? 'Switch to Google' : 'Continue with Google';
+        }
+        if (guestLabel) {
+            guestLabel.textContent = this.authUser?.isAnonymous ? 'Stay as Guest' : 'Continue as Guest';
+        }
+    }
+
+    /**
+     * Start Google sign-in using Firebase Auth.
+     */
+    async handleGoogleLogin() {
+        try {
+            this.updateAuthStatusLabel('Opening Google sign-in...');
+            if (!window.FirebaseBridge || typeof window.FirebaseBridge.signInWithGoogle !== 'function') {
+                throw new Error('Firebase Auth is not configured yet.');
+            }
+            await window.FirebaseBridge.signInWithGoogle();
+            this.markAuthPromptSeen();
+            this.closeAuthModal();
+            this.showToast('Signed in successfully.', 'success');
+        } catch (error) {
+            console.error('Google sign-in failed:', error);
+            this.updateAuthStatusLabel(error.message || 'Google sign-in failed.');
+            this.showToast('Google sign-in could not be completed.', 'error');
+        }
+    }
+
+    /**
+     * Continue browsing as a guest.
+     */
+    async handleGuestLogin() {
+        try {
+            this.updateAuthStatusLabel('Continuing as guest...');
+            if (!window.FirebaseBridge || typeof window.FirebaseBridge.signInAsGuest !== 'function') {
+                this.activateLocalGuestSession();
+                return;
+            }
+            const result = await window.FirebaseBridge.signInAsGuest();
+            if (result?.user && !window.FirebaseBridge.getCurrentUser?.()) {
+                this.authUser = result.user;
+                this.updateAuthButton(result.user);
+                this.updateAuthModalState();
+            }
+            localStorage.setItem(this.authSessionKey, 'guest');
+            this.markAuthPromptSeen();
+            this.closeAuthModal();
+            this.showToast('You are browsing as a guest.', 'success');
+        } catch (error) {
+            console.error('Guest login failed:', error);
+            this.activateLocalGuestSession();
+        }
+    }
+
+    /**
+     * Fall back to a local guest session if Firebase anonymous auth is not available.
+     */
+    activateLocalGuestSession() {
+        const localGuest = {
+            uid: `guest-${Date.now()}`,
+            isAnonymous: true,
+            displayName: 'Guest',
+        };
+
+        this.authUser = localGuest;
+        this.updateAuthButton(localGuest);
+        this.updateAuthModalState();
+        localStorage.setItem(this.authSessionKey, 'guest');
+        this.markAuthPromptSeen();
+        this.closeAuthModal();
+        this.updateAuthStatusLabel('Guest browsing enabled.');
+        this.showToast('You are browsing as a guest.', 'success');
+    }
+
+    /**
+     * Sign out of the current auth session.
+     */
+    async handleSignOut() {
+        try {
+            if (window.FirebaseBridge && typeof window.FirebaseBridge.signOut === 'function') {
+                await window.FirebaseBridge.signOut();
+            }
+            localStorage.removeItem(this.authSessionKey);
+            this.authUser = null;
+            this.updateAuthButton(null);
+            this.updateAuthModalState();
+            this.updateAuthStatusLabel('Signed out. Choose Google sign-in or guest mode to continue.');
+            this.showToast('Signed out successfully.', 'success');
+        } catch (error) {
+            console.error('Sign out failed:', error);
+            this.showToast('Could not sign out right now.', 'error');
+        }
     }
 
     /**
@@ -218,10 +469,12 @@ class SahaPicks {
             }
 
             // Render each product
+            const cardsHTML = [];
             products.forEach((product, index) => {
                 const cardHTML = this.createProductCard(product, index);
-                this.productsGrid.innerHTML += cardHTML;
+                cardsHTML.push(cardHTML);
             });
+            this.productsGrid.innerHTML = cardsHTML.join('');
 
             // Attach event listeners to new elements
             this.attachProductCardListeners();
@@ -239,6 +492,13 @@ class SahaPicks {
             .slice(0, 3)
             .map(tag => `<div class="badge ${tag}">${this.getBadgeText(tag)}</div>`)
             .join('');
+        const affiliateBadgeHTML = `<span class="affiliate-badge">Amazon Affiliate</span>`;
+        const cardLabelsHTML = `
+            <div class="product-card-labels">
+                ${affiliateBadgeHTML}
+                ${badgesHTML}
+            </div>
+        `;
 
         const tagsHTML = tags
             .map(tag => `<span class="tag">${this.getBadgeText(tag)}</span>`)
@@ -255,10 +515,8 @@ class SahaPicks {
             <div class="product-card" data-product-id="${product.id}" style="animation-delay: ${index * 0.05}s; animation: fadeIn 0.6s ease-out both;">
                 <div class="product-image">
                     <img src="${this.escapeHTML(product.image || '')}" alt="${this.escapeHTML(product.title)}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23E5E7EB%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22%239CA3AF%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3ENo Image%3C/text%3E%3C/svg%3E'">
-                    <div class="product-badges">
-                        ${badgesHTML}
-                    </div>
                 </div>
+                ${cardLabelsHTML}
 
                 <div class="product-content">
                     <h3 class="product-title">${this.escapeHTML(product.title)}</h3>

@@ -45,12 +45,28 @@
                     </div>
                     <p class="search-message" id="searchMessage" aria-live="polite"></p>
                 </div>
+                <button class="auth-pill" id="authButton" type="button">Login</button>
                 <button class="theme-toggle store-theme-toggle" id="themeToggle"
                     aria-label="Toggle dark mode">&#9790;</button>
             </div>
 
         </div>
     </header>
+
+    <section class="ticker-strip" aria-label="Fresh picks ticker">
+        <div class="ticker-track" aria-hidden="true">
+            <span>Fresh Picks</span>
+            <span>Top Deals</span>
+            <span>Latest Finds</span>
+            <span>Amazon Affiliate</span>
+            <span>Daily Updates</span>
+            <span>Fresh Picks</span>
+            <span>Top Deals</span>
+            <span>Latest Finds</span>
+            <span>Amazon Affiliate</span>
+            <span>Daily Updates</span>
+        </div>
+    </section>
 
     <section class="hero">
         <div class="container hero-wrap">
@@ -69,6 +85,7 @@
 
             <div class="hero-card">
                 <div class="deal-panel">
+                    <span class="affiliate-ribbon">Amazon Affiliate</span>
                     <span class="deal-tag">Fresh Picks</span>
                     <h2>Smarter gadget buying, without the noise.</h2>
                     <p>Every pick is selected for specs, usefulness, pricing and real everyday value.</p>
@@ -238,8 +255,41 @@
         </div>
     </div>
 
+    <div class="modal" id="authModal" aria-labelledby="authModalTitle" aria-describedby="authModalDescription">
+        <div class="modal-content modal-sm auth-modal">
+            <button class="modal-close" aria-label="Close sign in dialog">Close</button>
+            <p class="auth-kicker">Welcome to SahaPicks</p>
+            <h2 id="authModalTitle">Choose how you want to continue</h2>
+            <p id="authModalDescription">Sign in with Google to sync your experience through Firebase Authentication, or continue as a guest.</p>
+            <div class="auth-actions">
+                <button class="btn primary auth-btn" id="googleLoginBtn" type="button">
+                    <span class="auth-btn-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="presentation">
+                            <path fill="#EA4335" d="M12 10.2v3.95h5.62c-.24 1.34-.97 2.48-2.08 3.24v2.69h3.37c1.97-1.82 3.11-4.5 3.11-7.68 0-.74-.07-1.45-.2-2.1H12z"/>
+                            <path fill="#4285F4" d="M12 24c2.82 0 5.18-.93 6.9-2.52l-3.37-2.69c-.93.63-2.12 1-3.53 1-2.71 0-5.01-1.83-5.83-4.3H2.7v2.77C4.4 21.87 7.92 24 12 24z"/>
+                            <path fill="#FBBC05" d="M6.17 15.49c-.21-.63-.33-1.3-.33-1.99s.12-1.36.33-1.99V8.74H2.7A11.95 11.95 0 0 0 0 13.5c0 1.93.46 3.75 1.27 5.26l4.9-3.27z"/>
+                            <path fill="#34A853" d="M12 4.75c1.53 0 2.9.53 3.98 1.56l2.99-2.99A12 12 0 0 0 12 0C7.92 0 4.4 2.13 2.7 5.97l3.47 2.77C6.99 6.58 9.29 4.75 12 4.75z"/>
+                        </svg>
+                    </span>
+                    <span class="auth-btn-label">Continue with Google</span>
+                </button>
+                <button class="btn secondary auth-btn" id="guestLoginBtn" type="button">
+                    <span class="auth-btn-icon auth-btn-icon-guest" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="presentation">
+                            <path fill="currentColor" d="M12 12.2a4.1 4.1 0 1 0-4.1-4.1 4.1 4.1 0 0 0 4.1 4.1zm0 2.1c-4.15 0-7.5 2.02-7.5 4.52V22h15v-3.18c0-2.5-3.35-4.52-7.5-4.52z"/>
+                        </svg>
+                    </span>
+                    <span class="auth-btn-label">Continue as Guest</span>
+                </button>
+            </div>
+            <p class="auth-status" id="authStatusText" aria-live="polite"></p>
+            <button class="auth-link" id="signOutBtn" type="button">Sign out</button>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
     <script src="js/firebase.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/products.js"></script>

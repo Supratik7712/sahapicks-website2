@@ -5,18 +5,19 @@
  */
 
 window.FIREBASE_CONFIG = window.FIREBASE_CONFIG || {
-   apiKey: "AIzaSyCvQ9bOG70HQv_YNtEJZguiKo3Kg0mee0I",
-    authDomain: "sahapicks-website.firebaseapp.com",
-    projectId: "sahapicks-website",
-    storageBucket: "sahapicks-website.firebasestorage.app",
-    messagingSenderId: "362774914689",
-    appId: "1:362774914689:web:042752f815571b8840cf80",
-    measurementId: "G-0FG515X05P"
+    apiKey: "AIzaSyCvQ9bOG70HQv_YNtEJZguiKo3Kg0mee0I",
+  authDomain: "sahapicks-website.firebaseapp.com",
+  projectId: "sahapicks-website",
+  storageBucket: "sahapicks-website.firebasestorage.app",
+  messagingSenderId: "362774914689",
+  appId: "1:362774914689:web:042752f815571b8840cf80",
+  measurementId: "G-0FG515X05P"
 };
 
 const FirebaseBridge = {
     app: null,
     db: null,
+    auth: null,
     initialized: false,
 
     isConfigured() {
@@ -46,8 +47,61 @@ const FirebaseBridge = {
 
         this.app = window.firebase.app();
         this.db = window.firebase.firestore();
+        this.auth = typeof window.firebase.auth === 'function' ? window.firebase.auth() : null;
         this.initialized = true;
         return true;
+    },
+
+    async initAuth() {
+        await this.init();
+        return Boolean(this.auth);
+    },
+
+    async onAuthStateChange(callback) {
+        const ready = await this.initAuth();
+        if (!ready) {
+            callback(null);
+            return () => {};
+        }
+
+        return this.auth.onAuthStateChanged(callback);
+    },
+
+    async signInWithGoogle() {
+        const ready = await this.initAuth();
+        if (!ready) {
+            throw new Error('Firebase Auth is not available in this environment.');
+        }
+
+        const provider = new window.firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({
+            prompt: 'select_account',
+        });
+
+        return this.auth.signInWithPopup(provider);
+    },
+
+    async signInAsGuest() {
+        const ready = await this.initAuth();
+        if (!ready) {
+            return { user: { uid: `guest-${Date.now()}`, isAnonymous: true } };
+        }
+
+        return this.auth.signInAnonymously();
+    },
+
+    async signOut() {
+        const ready = await this.initAuth();
+        if (!ready) {
+            return true;
+        }
+
+        await this.auth.signOut();
+        return true;
+    },
+
+    getCurrentUser() {
+        return this.auth?.currentUser || null;
     },
 
     async getProducts() {
