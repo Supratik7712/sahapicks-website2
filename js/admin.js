@@ -707,27 +707,26 @@ class AdminPanel {
      * Setup theme
      */
     setupTheme() {
-        const theme = Storage.getTheme();
-        if (theme === 'dark') {
-            document.body.classList.add('dark-mode');
-            this.themeToggle.textContent = '☀';
-        } else {
-            document.body.classList.remove('dark-mode');
-            this.themeToggle.textContent = '☾';
-        }
+        this.applyTheme(Storage.getTheme());
     }
 
     /**
      * Toggle theme
      */
     toggleTheme() {
-        const newTheme = Storage.toggleTheme();
-        if (newTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            this.themeToggle.textContent = '☀';
-        } else {
-            document.body.classList.remove('dark-mode');
-            this.themeToggle.textContent = '☾';
+        this.applyTheme(Storage.toggleTheme());
+    }
+
+    /**
+     * Apply theme to both the document and body.
+     */
+    applyTheme(theme) {
+        const isDark = theme === 'dark';
+        document.body.classList.toggle('dark-mode', isDark);
+        document.documentElement.classList.toggle('dark-mode', isDark);
+        document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+        if (this.themeToggle) {
+            this.themeToggle.textContent = isDark ? '☀' : '☾';
         }
     }
 

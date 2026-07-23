@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>SahaPicks | Smart Electronics Deals</title>
+    <meta name="color-scheme" content="light dark">
     <link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96">
@@ -12,6 +13,21 @@
     <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
     <link rel="manifest" href="assets/favicon/site.webmanifest">
     <meta name="theme-color" content="#10b981">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <script>
+        (function () {
+            try {
+                const theme = localStorage.getItem('sahapicks_theme');
+                const isDark = theme === 'dark';
+                document.documentElement.classList.toggle('dark-mode', isDark);
+                document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+            } catch (error) {
+                document.documentElement.dataset.theme = 'light';
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -112,6 +128,21 @@
         </div>
     </section>
 
+    <section class="banner-section ad-banner ad-banner-top" aria-label="Sponsored content">
+        <div class="container ad-banner-wrap ad-banner-wrap-wide">
+            <script>
+                atOptions = {
+                    'key' : '851126db2e3b87b00d548db195133bdd',
+                    'format' : 'iframe',
+                    'height' : 60,
+                    'width' : 468,
+                    'params' : {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/851126db2e3b87b00d548db195133bdd/invoke.js"></script>
+        </div>
+    </section>
+
     <section class="trust-strip">
         <div class="container trust-grid">
             <div>Handpicked Electronics</div>
@@ -166,6 +197,21 @@
         </div>
     </section>
 
+    <section class="banner-section ad-banner ad-banner-square" aria-label="Sponsored content">
+        <div class="container ad-banner-wrap ad-banner-wrap-square">
+            <script>
+                atOptions = {
+                    'key' : '556c7af5924a624554652fc3d1b65ee5',
+                    'format' : 'iframe',
+                    'height' : 250,
+                    'width' : 300,
+                    'params' : {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/556c7af5924a624554652fc3d1b65ee5/invoke.js"></script>
+        </div>
+    </section>
+
     <section id="trending" class="banner-section">
         <div class="container banner-box">
             <div>
@@ -173,6 +219,36 @@
                 <p>Fresh electronics and gadget picks added regularly.</p>
             </div>
             <a href="#products" class="btn primary">Explore Deals</a>
+        </div>
+    </section>
+
+    <section class="banner-section ad-banner ad-banner-mid" aria-label="Sponsored content">
+        <div class="container ad-banner-wrap ad-banner-wrap-medium">
+            <script>
+                atOptions = {
+                    'key' : '3f3e3dc97da13ee4b5ef2584aac03ac9',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/3f3e3dc97da13ee4b5ef2584aac03ac9/invoke.js"></script>
+        </div>
+    </section>
+
+    <section class="banner-section ad-banner ad-banner-bottom" aria-label="Sponsored content">
+        <div class="container ad-banner-wrap ad-banner-wrap-tall">
+            <script>
+                atOptions = {
+                    'key' : '6898b4cbd0a029de444b0d49c5a7fe86',
+                    'format' : 'iframe',
+                    'height' : 300,
+                    'width' : 160,
+                    'params' : {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/6898b4cbd0a029de444b0d49c5a7fe86/invoke.js"></script>
         </div>
     </section>
 

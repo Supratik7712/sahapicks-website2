@@ -1,505 +1,386 @@
 # 🛍️ SahaPicks Website
 
-SahaPicks is a modern affiliate product discovery platform designed to help users explore curated products and seamlessly redirect to trusted ecommerce partners for purchasing.
+SahaPicks is a curated electronics deals website built to help visitors discover useful gadgets, compare prices quickly, and jump to trusted ecommerce partners through affiliate links.
 
-The platform focuses on clean UI/UX, responsive design, affiliate conversion optimization, and scalable deployment architecture.
+It is also a full-stack affiliate marketing website, with product storage, admin authentication, newsletter capture, and ad monetization all built into the workflow.
 
----
-
-# 🌐 Live Website
-
-🔗 https://sahapicks.online/
-
-> Domain purchased via Hostinger and connected to Netlify hosting for fast global delivery.
-
----
-
-# 🚀 USP & Value Proposition
-
-SahaPicks simplifies product discovery by combining curated recommendations with fast affiliate redirection workflows.
-
-## Why Users Use SahaPicks
-
-- 🛒 Discover curated and trending products
-- ⚡ Seamless “Buy Now” affiliate redirection
-- 📱 Mobile-first responsive experience
-- 🎯 Optimized product showcase funnel
-- 🔗 Direct checkout on trusted ecommerce partner platforms
-- 💡 Fast-loading lightweight frontend
-
----
-
-# 🔄 Affiliate Funnel Workflow
-
-```text
-Product Discovery
-        ↓
-Product Recommendation Display
-        ↓
-Affiliate Link Generation / Tracking
-        ↓
-Buy Now Redirect
-        ↓
-Checkout on Partner Ecommerce Platform
-```
-
-The website acts as a discovery and referral layer rather than directly processing payments or storing customer payment information.
-
----
-
-# ✨ Core Features
-
-- Responsive modern UI
-- Curated product collections
-- Affiliate “Buy Now” redirection system
-- Firebase-powered product management
-- Newsletter subscription integration
-- Lightweight optimized frontend
-- Fast Netlify deployment pipeline
-- Custom domain integration via Hostinger
-
----
-
-# 🛠️ Tech Stack
-
-## Frontend
+It is a lightweight static project made with:
 
 - HTML5
 - CSS3
-- JavaScript
+- Vanilla JavaScript
+- Firebase integration for optional remote data/auth
+- Formspree for newsletter capture
 
-### Frontend Architecture
-- Responsive component-based structure
-- Vanilla JavaScript / framework-based implementation (depending on project setup)
-- Optimized asset loading
-- Mobile-first UI approach
+The whole experience is designed to feel fast, simple, and easy to host.
 
----
+## 🌐 Live Site
 
-# ☁️ Backend & Storage
+- Website: `https://sahapicks.online/`
 
-## Firebase Services
+## 🏷️ Domain & Hosting
+
+- Domain purchased from Hostinger
+- Hosting handled for free on Netlify
+- GitHub is connected to Netlify for automatic updates when the codebase changes
+- DNS propagation was used to point the Hostinger domain to the Netlify deployment
+
+This setup makes the site easy to maintain because pushing code to GitHub can automatically update the live website after Netlify deploys the changes.
+
+## ✨ What This Website Is
+
+SahaPicks is a product discovery and referral platform.
+
+It is not a checkout system.
+It does not process payments.
+It does not store customer card details.
+
+Instead, it helps users browse handpicked electronics and then redirect to affiliate merchant pages with one click.
+
+## 🚀 What Makes It Useful
+
+- Users can quickly find trending and practical electronics
+- Products are organized into clear categories
+- Search helps find items by title, description, or tag
+- Sorting helps compare by newest or price
+- Quick view gives a richer look without leaving the page
+- The experience is responsive on desktop, tablet, and mobile
+- The admin panel makes product management straightforward
+
+## 🧭 Main Pages
+
+### 🏠 Storefront
+
+The public shopping experience lives in [index.html](./index.html).
+
+It includes:
+
+- Sticky top navigation
+- Brand logo and admin link
+- Product search bar
+- Theme toggle for light and dark mode
+- Hero section with featured messaging
+- Category filter chips
+- Product grid
+- Newsletter signup
+- Quick view modal
+- Guest and Google auth prompt
+- Sponsored banner placements
+- Footer with disclosure and social links
+
+### 🛠️ Admin Dashboard
+
+The management panel lives in [admin.html](./admin.html).
+
+It includes:
+
+- Client-side admin gate
+- Product statistics
+- Full product table
+- Add product form
+- Edit product form
+- Product image preview
+- Tag selectors
+- Click counts
+- JSON import and export
+- PDF export
+- Clear-all action with confirmation
+
+### 🧱 Full-Stack Affiliate Marketing Setup
+
+The project is more than a static showcase.
+
+It includes the core pieces usually needed for an affiliate marketing stack:
+
+- Product catalog management
+- Authentication for admin access and user sessions
+- Newsletter lead capture
+- Ad monetization
+- Affiliate link routing
+- Remote database support
+
+## 🎯 Feature Highlights
+
+### 🔎 Search
+
+Visitors can search products using:
+
+- Product title
+- Product description
+- Product tags
+
+This makes browsing smoother when the catalog grows.
+
+### 🏷️ Category Filters
+
+The site has a clean chip-based filter system for product discovery.
+
+Categories include:
+
+- Mobiles
+- Audio
+- Laptops & Desk Setup
+- Wearables
+- Content Creator Gadgets
+- Budget Tech Gadgets
+- Accessories
+- Smart Home
+- Gaming
+- Trending
+- Hot Deals
+
+### 📊 Sorting
+
+Users can sort by:
+
+- Newest first
+- Price low to high
+- Price high to low
+
+### 👀 Quick View
+
+The quick view modal lets users inspect product details without opening a new page.
+
+It shows:
+
+- Product image
+- Full title
+- Offer price
+- Original price
+- Discount information
+- Tags
+- Full description
+- Affiliate buy button
+
+### 🌙 Light and Dark Mode
+
+The website supports both light and dark mode.
+
+Theme preference is saved in `localStorage` using the key `sahapicks_theme`, so the choice stays across sessions.
+
+### 📩 Newsletter Capture
+
+The newsletter form is connected through Formspree so email signups can be captured without building a custom backend.
+
+This keeps the lead-capture flow lightweight while still allowing newsletter submissions from the public site.
+
+### 👤 Login Experience
+
+The storefront supports:
+
+- Google login through Firebase Auth
+- Guest browsing mode
+
+This is mainly used for session personalization and a smoother user experience.
+
+### 📈 Click Tracking
+
+Every product card includes a Buy Now affiliate button.
+
+Clicks are tracked and stored so the admin can see which products are getting attention.
+
+### 🗄️ Firebase Storage + Authentication
 
 Firebase is used for:
 
-- Product data storage
-- Image asset hosting
-- Database management
-- Optional authentication handling
+- Admin panel product storage
+- Product syncing across sessions
+- Authentication support
 
-### Firebase Components
-- Firestore Database
-- Firebase Storage
-- Firebase Hosting utilities (optional)
+That means the admin dashboard is not just a visual editor. It can persist product data remotely and support authenticated access flows.
 
-### Security Rules
-Firebase security rules should restrict:
-- Unauthorized write access
-- Public modification of product data
-- Access to sensitive admin operations
+### 🧰 Product Management
 
-> Secrets, API keys, and credentials are never stored directly inside the repository.
+The admin dashboard is built to support day-to-day store updates.
 
----
+You can:
 
-# 🌍 Hosting & Deployment
+- Add products
+- Edit products
+- Delete products
+- Sort and review products
+- Import a JSON backup
+- Export your catalog
+- Track clicks
+- Reset everything if needed
 
-## Netlify Hosting
+### 📢 Sponsored Ad Areas
 
-The application is deployed using Netlify for:
+The homepage includes dedicated ad placements that are separate from the core product experience.
 
-- Global CDN delivery
-- Continuous deployment
-- HTTPS support
-- Fast static hosting
-- GitHub-based auto deployments
+Ad monetization is integrated through Adsterra, which allows the site to earn from traffic while keeping the affiliate storefront experience intact.
 
----
+That makes them easier to keep, move, or remove later without affecting the rest of the site.
 
-# 🌐 Domain & DNS Setup
+## 🏗️ How The Project Works
 
-## Domain Provider
-- Hostinger
+The project is intentionally framework-free.
 
-## Hosting Provider
-- Netlify
-
-### DNS Workflow
+It uses a simple flow:
 
 ```text
-Hostinger Domain
-        ↓
-DNS Configuration
-        ↓
-Netlify Nameservers / DNS Records
-        ↓
-Website Hosted on Netlify CDN
+User action
+  -> app.js or admin.js
+  -> products.js
+  -> storage.js
+  -> localStorage or Firebase
+  -> UI update
 ```
 
-### DNS Configuration Includes
-- A records
-- CNAME records
-- SSL provisioning
-- DNS propagation handling
+### Core JavaScript Files
 
-### DNS Propagation
-DNS changes may take:
-- Few minutes to 24 hours globally
+- [js/app.js](./js/app.js) handles storefront interactions
+- [js/admin.js](./js/admin.js) handles admin operations
+- [js/products.js](./js/products.js) handles sorting, filtering, and search logic
+- [js/storage.js](./js/storage.js) handles persistence and fallback storage
+- [js/firebase.js](./js/firebase.js) bridges Firebase Auth and Firestore
 
----
+### Storage Behavior
 
-# 🔌 Integrations
+The site tries to use Firebase when available and configured.
 
-## Formspree
-Used for:
-- Newsletter subscriptions
-- Contact forms
-- Lead capture workflows
+If Firebase is not available, it falls back to localStorage so the site can still work in a lightweight preview or offline-friendly mode.
 
-## Development Tools
+### Monetization Stack
 
-### ChatGPT
-Used for:
-- Base Code development 
-- Documentation assistance
-- UI/UX ideation
-- Code optimization guidance
+- Affiliate income comes from product redirection links
+- Display ads are integrated through Adsterra
+- Newsletter growth is handled through Formspree
+- Hosting is handled on Netlify with GitHub-based deployment automation
 
-### GitHub Copilot
-Used for:
-- Code suggestions
-- Faster development workflows
-- Refactoring assistance
+## 💡 Detailed Analysis
 
----
+### ✅ Strengths
 
-# 📂 Project Structure
+- Clean separation between UI, storage, and product logic
+- Very fast because there is no frontend framework overhead
+- Easy to host as a static website
+- Good mobile and tablet layout behavior
+- Theme choice is remembered
+- Product management is simple and practical
+- Works well as an affiliate-focused storefront
 
-```bash
-sahapicks-wesbite/
-│
-├── public/
-│
-│
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── pages/
-│   ├── services/
-│   ├── firebase/
-│   ├── styles/
-│   └── utils/
-│
-├── .env.example
+### 🎨 UX Notes
+
+- The sticky header keeps navigation always available
+- Search and filters reduce friction for shoppers
+- Product cards are visually consistent and easy to scan
+- Quick view reduces unnecessary page hops
+- The admin panel is compact and operationally focused
+- Newsletter signup is kept simple and visible
+
+### ⚡ Performance Notes
+
+- Product images use lazy loading
+- Theme is applied early to reduce flash/flicker
+- Sections are styled to reduce layout shift
+- The site is static, so it can load very quickly on a good host
+- External ads and third-party services can still affect speed
+
+### 📱 Responsiveness Notes
+
+The layout is tuned for:
+
+- Large desktop screens with multi-column browsing
+- Tablet layouts with stacked sections
+- Mobile single-column browsing
+- Admin table collapse into card-style rows on narrow screens
+
+### 🔐 Security Notes
+
+- The admin password check is client-side only
+- Firebase security rules should be set properly if remote data is enabled
+- Public config values are okay to expose in frontend code, but access control must still be enforced in Firebase rules
+- External ad scripts are outside the control of this repository
+- Netlify and GitHub deployment should be protected with proper repository access and branch control
+
+## 🧰 Tech Stack
+
+- HTML5 for structure
+- CSS3 for the full UI and responsive layout
+- Vanilla JavaScript for interactions
+- Firebase Auth for Google sign-in and guest auth support
+- Firestore for optional product storage
+- Formspree for newsletter submissions
+- Adsterra for ad monetization
+- Hostinger for domain registration
+- Netlify for free hosting and deployments
+- GitHub for source control and automatic deployment triggers
+
+## 📂 Project Structure
+
+```text
+.
+├── admin.html
+├── assets/
+├── css/
+│   └── style.css
+├── favicon.ico
+├── index.html
+├── js/
+│   ├── admin.js
+│   ├── app.js
+│   ├── firebase.js
+│   ├── products.js
+│   └── storage.js
 ├── package.json
-├── vite.config.js
-├── README.md
-└── .gitignore
+└── README.md
 ```
 
----
+## 🏃 Local Preview
 
-# ⚙️ Local Development Setup
+There is no build step in this repo.
 
-## 1️⃣ Clone Repository
+You can open the HTML files directly in the browser, or use a simple local server:
 
 ```bash
-git clone https://github.com/Supratik7712/sahapicks-wesbite.git
+python3 -m http.server 5173
 ```
 
----
+Then open:
 
-## 2️⃣ Navigate Into Project
-
-```bash
-cd sahapicks-wesbite
-```
-
----
-
-## 3️⃣ Install Dependencies
-
-```bash
-npm install
-```
-
----
-
-## 4️⃣ Configure Environment Variables
-
-Create a `.env` file:
-
-```env
-VITE_FIREBASE_API_KEY=your_key
-VITE_FIREBASE_AUTH_DOMAIN=your_domain
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FORMSPREE_ENDPOINT=your_formspree_endpoint
-```
-
-> Never commit `.env` files or secrets to GitHub.
-
----
-
-## 5️⃣ Start Development Server
-
-```bash
-npm run dev
-```
-
----
-
-## 6️⃣ Open In Browser
-
-```bash
+```text
 http://localhost:5173
 ```
 
----
+## 🚚 Deployment Notes
 
-# 🚀 Deployment Workflow
-
-## GitHub → Netlify CI/CD
-
-Whenever code is pushed to GitHub:
-
-```bash
-git add .
-git commit -m "Updated project"
-git push origin main
-```
-
-Netlify automatically:
-- Detects changes
-- Builds the project
-- Deploys the latest version
-
----
-
-# ☁️ Netlify Deployment Setup
-
-## Build Command
-
-```bash
-npm run build
-```
-
-## Publish Directory
-
-```bash
-dist
-```
-
----
-
-# 🌐 Connecting Hostinger Domain To Netlify
-
-## Step 1 — Add Domain In Netlify
-
-- Site Settings
-- Domain Management
-- Add Custom Domain
-
----
-
-## Step 2 — Configure DNS In Hostinger
-
-Add records provided by Netlify.
-
-Typical configuration:
-
-### A Record
-
-```text
-75.2.60.5
-```
-
-### CNAME Record
-
-```text
-your-site.netlify.app
-```
-
----
-
-## Step 3 — SSL Provisioning
-
-Netlify automatically provisions:
-- HTTPS
-- SSL certificates
-- Secure CDN delivery
-
----
-
-# 📧 Formspree Integration
-
-## Setup Workflow
-
-1. Create Formspree account
-2. Create newsletter form
-3. Copy generated endpoint
-4. Add endpoint to frontend form action
-
-Example:
-
-```html
-<form action="https://formspree.io/f/your-id" method="POST">
-```
-
----
-
-# 🔄 Data Flow Architecture
-
-## Product Data Flow
-
-```text
-Admin/Product Source
-        ↓
-Firebase Firestore
-        ↓
-Frontend Fetches Product Data
-        ↓
-Products Rendered On Website
-        ↓
-Affiliate Link Redirect Triggered
-```
-
----
-
-# 🔗 Affiliate Link Flow
-
-```text
-User Clicks Buy Now
-        ↓
-Affiliate URL Loaded
-        ↓
-Referral Parameters Attached
-        ↓
-Redirect To Ecommerce Platform
-```
-
----
-
-# 🔒 Security & Privacy
-
-## Security Practices
-
-- Environment variables hidden
-- Firebase rules configured
-- No payment processing handled locally
-- Sensitive credentials excluded from repository
-- HTTPS enabled via Netlify SSL
-
-## User Data Handling
-
-Newsletter/contact form submissions:
-- Processed through Formspree
-- Not publicly exposed
-- Not stored directly in frontend code.
-
-# 📋 First Run Checklist
-
-## ✅ Before Running
-
-- Install Node.js
-- Configure Firebase project
-- Configure Formspree endpoint
-- Create `.env` file
-- Install dependencies
-
----
-
-# 🔧 Available Scripts
-
-## Development
-
-```bash
-npm run dev
-```
-
-## Production Build
-
-```bash
-npm run build
-```
-
-## Preview Build
-
-```bash
-npm run preview
-```
-
----
-
-# ⚠️ Known Limitations
-
-- No direct payment gateway integration
-- Affiliate conversion depends on partner platforms
-- Firebase free tier limitations may apply
-- DNS propagation delays may occur during setup
-
----
-
-# 📈 Future Improvements
-
-Planned upgrades include:
-
-- Advanced affiliate analytics
-- AI-powered recommendations
-- Authentication system
-- Wishlist functionality.
-
-# 🤝 Contributing
-
-Contributions are welcome.
-
-# 🐛 Support & Issues
-
-For bugs, issues, or suggestions:
-
-- Open a GitHub issue
-- Contact project maintainer
-
----
-
-# 👨‍💻 Author
-
-## Supratik Saha
-
-### GitHub
-https://github.com/Supratik7712
-
-### Website
-https://sahapicks.online/
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
-
----
-# ⭐ For any query contact
---- supratiksaha2022s@gmail.com
-
-# ⭐ Support The Project
-
-If you found this project useful:
-
-- ⭐ Star the repository
-- 🍴 Fork the project
-- 📢 Share the project
-
----
-
-# 🙌 Acknowledgements
-
-Special thanks to:
+Since this is a static website, it can be hosted on:
 
 - Netlify
-- Firebase
-- Hostinger
-- Formspree
-- GitHub
-- Open-source community
-- ChatGPT
-- GitHub Copilot.
+- Vercel
+- GitHub Pages
+- Cloudflare Pages
+- Any static host
+
+Before going live, make sure:
+
+- The domain points to the correct host
+- Firebase config is valid if Firestore/Auth are being used
+- Formspree endpoint is active
+- Sponsored ad scripts are working as expected
+
+## 📝 Important Files
+
+- [index.html](./index.html) for the storefront and ad placements
+- [admin.html](./admin.html) for the product dashboard
+- [css/style.css](./css/style.css) for the full visual design
+- [js/app.js](./js/app.js) for storefront behavior
+- [js/admin.js](./js/admin.js) for admin behavior
+- [js/storage.js](./js/storage.js) for persistence and theme storage
+- [js/firebase.js](./js/firebase.js) for Firebase integration
+
+## 🧾 Practical Summary
+
+SahaPicks is a clean, fast, and mobile-friendly electronics affiliate storefront with:
+
+- Curated product discovery
+- Search, filter, and sort controls
+- Quick view browsing
+- Theme switching
+- Newsletter signup
+- Admin-side product management
+- Optional Firebase support
+- Static hosting compatibility
+
+It is built to be easy to maintain, easy to deploy, and easy for visitors to use.

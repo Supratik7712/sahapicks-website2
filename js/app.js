@@ -514,7 +514,7 @@ class SahaPicks {
         return `
             <div class="product-card" data-product-id="${product.id}" style="animation-delay: ${index * 0.05}s; animation: fadeIn 0.6s ease-out both;">
                 <div class="product-image">
-                    <img src="${this.escapeHTML(product.image || '')}" alt="${this.escapeHTML(product.title)}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23E5E7EB%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22%239CA3AF%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3ENo Image%3C/text%3E%3C/svg%3E'">
+                    <img src="${this.escapeHTML(product.image || '')}" alt="${this.escapeHTML(product.title)}" loading="lazy" decoding="async" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23E5E7EB%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22%239CA3AF%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3ENo Image%3C/text%3E%3C/svg%3E'">
                 </div>
                 ${cardLabelsHTML}
 
@@ -736,27 +736,26 @@ class SahaPicks {
      * Setup theme handling
      */
     setupTheme() {
-        const theme = Storage.getTheme();
-        if (theme === 'dark') {
-            document.body.classList.add('dark-mode');
-            if (this.themeToggle) this.themeToggle.textContent = '\u2600';
-        } else {
-            document.body.classList.remove('dark-mode');
-            if (this.themeToggle) this.themeToggle.textContent = '\u263e';
-        }
+        this.applyTheme(Storage.getTheme());
     }
 
     /**
      * Toggle theme
      */
     toggleTheme() {
-        const newTheme = Storage.toggleTheme();
-        if (newTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            if (this.themeToggle) this.themeToggle.textContent = '\u2600';
-        } else {
-            document.body.classList.remove('dark-mode');
-            if (this.themeToggle) this.themeToggle.textContent = '\u263e';
+        this.applyTheme(Storage.toggleTheme());
+    }
+
+    /**
+     * Apply the current theme everywhere the page needs it.
+     */
+    applyTheme(theme) {
+        const isDark = theme === 'dark';
+        document.body.classList.toggle('dark-mode', isDark);
+        document.documentElement.classList.toggle('dark-mode', isDark);
+        document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+        if (this.themeToggle) {
+            this.themeToggle.textContent = isDark ? '\u2600' : '\u263e';
         }
     }
 
