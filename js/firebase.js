@@ -5,13 +5,13 @@
  */
 
 window.FIREBASE_CONFIG = window.FIREBASE_CONFIG || {
-    apiKey: "AIzaSyCvQ9bOG70HQv_YNtEJZguiKo3Kg0mee0I",
-  authDomain: "sahapicks-website.firebaseapp.com",
-  projectId: "sahapicks-website",
-  storageBucket: "sahapicks-website.firebasestorage.app",
-  messagingSenderId: "362774914689",
-  appId: "1:362774914689:web:042752f815571b8840cf80",
-  measurementId: "G-0FG515X05P"
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "YOUR_FIREBASE_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_FIREBASE_PROJECT_ID",
+    storageBucket: "YOUR_FIREBASE_PROJECT_ID.firebasestorage.app",
+    messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
+    appId: "YOUR_FIREBASE_APP_ID",
+    measurementId: "YOUR_FIREBASE_MEASUREMENT_ID"
 };
 
 const FirebaseBridge = {
