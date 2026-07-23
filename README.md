@@ -384,3 +384,9 @@ SahaPicks is a clean, fast, and mobile-friendly electronics affiliate storefront
 - Static hosting compatibility
 
 It is built to be easy to maintain, easy to deploy, and easy for visitors to use.
+
+License
+© SahaPicks. Site design and code are proprietary. All rights reserved. Product names and trademarks belong to their respective owners.
+©Copyright 2026 SahaPicks. All rights reserved. 
+Owned by Supratik Saha.
+Mail: supratiksaha2022s@gmail.com
